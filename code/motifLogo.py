@@ -1,0 +1,384 @@
+from __future__ import division
+import sys
+import re
+import os
+import gzip
+import csv
+import time
+import math
+import numpy as np
+from six.moves import xrange
+from libs.encode_cons import *
+from libs.global_cons import *
+from libs.DNAShape_cons import *
+import libs.util as util
+import tensorflow as tf
+from libs import sequence
+import subprocess
+import collections
+import urllib
+from scipy.stats import poisson
+from scipy.stats import binom
+
+# The cutoff (0.01 : 1) which is used to identify motif
+motif_cutoff = np.arange(0.01, 1, 0.01)
+
+for peak_flank in PEAK_FLANK:
+    # Split each chromosome into non-overlapping segments, each has length (2 * peak_flank + 1)
+    chrom_split = {}
+    for key in util.chrom_seqSize.keys():
+        chrom_split[key] = np.arange(0, util.chrom_seqSize[key] - (2 * peak_flank + 1), (2 * peak_flank + 1))
+    
+    print("Sequence length: %d" % (2 * peak_flank + 1))
+    PATH_ENCODE = os.path.join(PATH_DATA, 'encode_' + str(2 * peak_flank + 1)) 
+
+    for back_grou in BACK_GROU:
+        print("Background sequence: %s" % (back_grou))
+        PATH_OUTPUT_ENCODE = os.path.join(PATH_OUTPUT, 'encode_' + str(2 * peak_flank + 1), back_grou)
+    
+        ################## Load Data ###################     
+        [train_data_list, table_name_list] = util.get_data_name()    # The name list of the training datasets
+
+        for train_data_name in train_data_list[int(sys.argv[1]) : int(sys.argv[2])]:
+            table_name = table_name_list[train_data_list.index(train_data_name)]
+            [peak_coor, peak_num] = util.get_peak_coor(PATH_ENCODE_TFBS_UNIF + "/" + table_name + ".narrowPeak.gz")
+                
+            print("Data set: %s" % (train_data_name))
+            path_curr_data = PATH_OUTPUT_ENCODE + '/' + train_data_name[-16:]
+            path_background_seq = PATH_DATA + "/encode_" + str(2 * peak_flank + 1) + "_background/" + train_data_name[-16:]
+            
+            ################# Load Data ##################          
+            [all_sequences, all_targets, all_sequences_alph, all_HelT, all_MGW, all_ProT, all_Roll, all_dnaShape] = \
+            util.load_data_encode(PATH_ENCODE + "/" + train_data_name + ".seq.gz", peak_coor, train_data_name, path_curr_data, "all", DNA_SHAPE, peak_flank, back_grou)
+            
+            ####### Convert data to one-hot format #######
+            [all_sequences_array, all_targets_array, all_HelT_array, all_MGW_array, all_ProT_array, all_Roll_array] = \
+            util.oneHot_data_encode(all_sequences, all_targets, all_HelT, all_MGW, all_ProT, all_Roll, DNA_SHAPE)
+            
+            all_data_array = {'Seq' : all_sequences_array,
+                              'HelT' : all_HelT_array,
+                              'MGW' : all_MGW_array,
+                              'ProT' : all_ProT_array,
+                              'Roll' : all_Roll_array
+                             }
+
+            motif_sequences_alph = all_sequences_alph[: (500 if all_sequences_array.shape[0] > 500 else all_sequences_array.shape[0]), ...]
+            motif_data_array = {key : value[: (500 if value.shape[0] > 500 else value.shape[0]), ...] for key, value in all_data_array.items()}
+            
+            # Generate background sequences to simulate the motif distribution
+            '''
+            # The foreground/positive sequences in fasta format
+            if not os.path.exists(path_curr_data + "/all/seq.fa"):
+                f_fa = open(path_curr_data + "/all/seq.fa", 'w')
+                for i in range(len(motif_sequences_alph)):
+                    f_fa.write('>Seq' + str(i) + '\n')
+                    f_fa.write(motif_sequences_alph[i] + '\n')
+                f_fa.close()
+            
+            # Shuffle the test data above for NUM_SHUFFLE times. We assume that distribution of motif occurrence in random sequences is very close to Binomail distribution.
+            # Thsee shuffled data will be used to estimate the parameter in Binomial distribution.
+            path_posi_shuf = path_curr_data + "/all/posi_shuf"
+            if not os.path.exists(path_posi_shuf):
+                os.mkdir(path_posi_shuf)
+            
+                for n_shuf in range(1, NUM_SHUFFLE + 1):        
+                    # Shuffle the sequences using fasta-dinucleotide-shuffle.py which is a tool downloaded from MEME
+                    featEnco = subprocess.Popen([PATH_LIBS + "/fasta-dinucleotide-shuffle.py", "-f",  path_curr_data + "/all/seq.fa", "-s", str(np.random.randint(50000)), "-o", path_posi_shuf + "/shuf_seq_" + str(n_shuf) + ".fa"])
+                    featEnco.wait()
+            '''
+            '''
+            path_background_seq = path_curr_data + "/background_seq"
+            if not os.path.exists(path_background_seq):
+                os.mkdir(path_background_seq)
+                
+                for n_shuf in range(1, NUM_SHUFFLE + 1):
+                    seqs = []    # Store sequences which are generated by randomly selecting (2 * PEAK_FLANK + 1) bps in human genome
+                    HelT = []
+                    MGW = []
+                    ProT = []
+                    Roll = []
+                    # These generated sequences will be used as background sequences in binary classification;
+                    # Here, we generate the same number of background sequences as foreground sequences
+                    while len(seqs) < (500 if peak_num > 500 else peak_num):
+                        chr_index = util.chrom_seqSize.keys()[np.random.randint(len(util.chrom_seqSize))]      # Randomly select a chromosome
+                        chr_start = chrom_split[chr_index][np.random.randint(len(chrom_split[chr_index]))]     # Randomly select a start position in selected chromosome
+                        chr_end = chr_start + (2 * peak_flank + 1)                                             # The end position of the selected segment
+                        seq_segment = str(util.genome_seq[chr_index][chr_start : chr_end]).upper()
+
+                        # The sequence only consisting of 'ACGT' will be used as background sequence
+                        if len(set(seq_segment) - set('ACGT')) == 0:
+                            seqs.append(seq_segment)
+                            HelT.append((util.genome_shape[chr_index]["HelT"][chr_start + 1 : chr_end - 2] - HelT_min_first) / HelT_span_first)
+                            MGW.append((util.genome_shape[chr_index]["MGW"][chr_start + 2 : chr_end - 2] - MGW_min_first) / MGW_span_first)
+                            ProT.append((util.genome_shape[chr_index]["ProT"][chr_start + 2 : chr_end - 2] - ProT_min_first) / ProT_span_first)
+                            Roll.append((util.genome_shape[chr_index]["Roll"][chr_start + 1 : chr_end - 2] - Roll_min_first) / Roll_span_first)
+                            
+                    seq_background = np.array([[float(BASE_NUM[x]) for x in seq] for seq in seqs])
+                    seq_background_alph = np.array([seq for seq in seqs])                               
+                    np.save(path_background_seq + "/seq_background_" + str(n_shuf) + ".npy", seq_background)
+                    np.save(path_background_seq + "/seq_background_alph_" + str(n_shuf) + ".npy", seq_background_alph)
+                    np.save(path_background_seq + "/seq_background_HelT_" + str(n_shuf) + ".npy", np.array(HelT))
+                    np.save(path_background_seq + "/seq_background_MGW_" + str(n_shuf) + ".npy", np.array(MGW))
+                    np.save(path_background_seq + "/seq_background_ProT_" + str(n_shuf) + ".npy", np.array(ProT))
+                    np.save(path_background_seq + "/seq_background_Roll_" + str(n_shuf) + ".npy", np.array(Roll))
+            '''
+
+            # Load background datasets including sequence and DNA shape
+            background_data_array = {}
+            for n_shuf in range(1, NUM_SHUFFLE + 1):
+                [back_sequences_array, _, back_HelT_array, back_MGW_array, back_ProT_array, back_Roll_array] = \
+                util.oneHot_data_encode(np.load(path_background_seq + "/" + "seq_background_" + str(n_shuf) + ".npy"), \
+                                        np.zeros(shape = (1)), \
+                                        np.load(path_background_seq + "/seq_background_HelT_" + str(n_shuf) + ".npy")[..., None], \
+                                        np.load(path_background_seq + "/seq_background_MGW_" + str(n_shuf) + ".npy")[..., None], \
+                                        np.load(path_background_seq + "/seq_background_ProT_" + str(n_shuf) + ".npy")[..., None], \
+                                        np.load(path_background_seq + "/seq_background_Roll_" + str(n_shuf) + ".npy")[..., None], \
+                                        DNA_SHAPE)                    
+                background_data_array[str(n_shuf)] = {'Seq' : back_sequences_array,
+                                                      'HelT' : back_HelT_array,
+                                                      'MGW' : back_MGW_array,
+                                                      'ProT' : back_ProT_array,
+                                                      'Roll' : back_Roll_array
+                                                     }
+                
+            for feature_format in FEATURE_FORMAT:
+                print('Feature format: %s' % (feature_format))
+                motif_data_comp = util.prep_data_encode(motif_data_array, feature_format)
+                data_keys = motif_data_comp.keys()
+                motif_data = tuple(motif_data_comp[key] for key in data_keys)
+                
+                background_data_comp = {}
+                for n_shuf in range(1, NUM_SHUFFLE + 1):
+                    background_data_comp[str(n_shuf)] = util.prep_data_encode(background_data_array[str(n_shuf)], feature_format)
+                
+                # Different neural network architectures
+                for net in NETWORK:
+                    print('Network architecture: %s' % (net))
+                    path_curr_net = path_curr_data + "/" + feature_format + "/" + net
+                                            
+                    file_name = "model.ckpt"     # The trained models
+                    
+                    with tf.Graph().as_default():
+                        ### Placeholder inputs which will be fed into the graph ###
+                        motif_data_node = tuple(tf.placeholder(tf.float32, shape = (motif_data_comp[key].shape[0], motif_data_comp[key].shape[1], motif_data_comp[key].shape[2], motif_data_comp[key].shape[3])) for key in data_keys)
+                        
+                        with tf.Session() as sess:
+                            saver_finetune = tf.train.import_meta_graph(path_curr_net + "/" + file_name + ".meta")
+                            saver_finetune.restore(sess, path_curr_net + "/" + file_name)
+                            #graph = tf.get_default_graph()
+
+                            #v = tf.trainable_variables() 
+                            #variables = sess.run(v)
+                            #var = [v.name for v in tf.trainable_variables()]
+                            #var = [v for v in tf.trainable_variables() if v.name == "conv1_1/biases:0"]
+                            #print(var)
+
+                            # [u'conv1/weights:0', u'conv1_1/biases:0', u'fc1/weights:0', u'fc1_1/biases:0', u'fc2/weights:0', u'fc2_1/biases:0', u'Variable:0']
+                            '''
+                            # Trained variables from DeepBind                
+                            para_path = PATH_DEEPBIND + '/db/params/D00752.001.txt'
+                            with open(para_path, 'r') as f:
+                                for line in f:
+                                    if line.startswith("detectors = "):
+                                        conv1_weights = tf.Variable(tf.constant(np.array(line[12:].strip().split(",")).reshape((filter_length, SEQUENCE_WIDTH, num_channels, filter_num))), trainable = False)
+
+                                    if line.startswith("thresholds = "):
+                                        conv1_biases = tf.Variable(tf.constant(np.array(line[13:].strip().split(","))), trainable = False)
+                            '''
+                            # Trained variables of the first convolution layer
+                            conv1_weights = {key : [v for v in tf.trainable_variables() if v.name == "conv1/weights_" + key + ":0"][0] for key in data_keys}
+                            conv1_biases = {key : [v for v in tf.trainable_variables() if v.name == "conv1/biases_" + key + ":0"][0] for key in data_keys}
+                            
+                            # Extract results from ReLU layer
+                            def relu_motif(data):
+                                relu = {}
+                                for i, key in enumerate(data_keys):
+                                    conv1 = tf.nn.conv2d(data[i], 
+                                                         conv1_weights[key],
+                                                         strides = [1, 1, 1, 1],
+                                                         padding = 'VALID')
+                                    relu[key] = tf.nn.relu(tf.nn.bias_add(conv1, conv1_biases[key]))
+                                return relu
+
+                            relu_array = relu_motif(motif_data_node)
+
+                            # Motif signal of each motif detector on the dataset which are used for motif identification
+                            motif_signal = sess.run([relu_array], feed_dict = {motif_data_node : motif_data})[0]
+
+                            '''
+                            # Motif signal of shuffled data sets
+                            motif_signal_shuf = np.zeros(shape = (NUM_SHUFFLE, motif_signal.shape[0], motif_signal.shape[1], motif_signal.shape[2], motif_signal.shape[3]))
+                            for n_shuf in range(1, NUM_SHUFFLE + 1):                        
+                                seqs = sequence.readFASTA(path_posi_shuf + "/shuf_seq_" + str(n_shuf) + ".fa", 'Extended DNA')
+                                seq_shuffle = np.array([[float(BASE_NUM[x]) for x in seq.getString()] for seq in seqs])
+                                sequences_array = (np.arange(1, SEQUENCE_WIDTH + 1) == seq_shuffle.flatten()[:, None]).astype(np.float32).reshape(len(seq_shuffle), seq_shuffle.shape[1], SEQUENCE_WIDTH)
+                                sequences_array = sequences_array[..., None]
+                                sequences_array_comp = {}
+                                sequences_array_comp['0'] = sequences_array
+                                shuf_data = tuple(sequences_array_comp[key] for key in data_keys)
+                                motif_signal_shuf[n_shuf - 1, ...] = sess.run([relu], feed_dict = {motif_data_node: shuf_data})[0]
+                            '''
+                            motif_signal_background = {key : np.zeros(shape = (NUM_SHUFFLE, motif_signal[key].shape[0], motif_signal[key].shape[1], motif_signal[key].shape[2], motif_signal[key].shape[3])) for key in data_keys}
+                            for n_shuf in range(1, NUM_SHUFFLE + 1):                                
+                                background_data = tuple(background_data_comp[str(n_shuf)][key] for key in data_keys)
+                                tmp = sess.run([relu_array], feed_dict = {motif_data_node: background_data})[0]
+                                for key in data_keys:
+                                    motif_signal_background[key][n_shuf - 1, ...] = tmp[key]
+                    tf.reset_default_graph()    
+                    '''                       
+                    # Calculate P-value of motif occurrence in test data against the shuffled data based on Poisson distribution
+                    pvalue = np.zeros(shape = (filter_num, len(motif_cutoff)))
+                    f_poisson = open("Poisson.csv", 'w')
+                    f_pvalue = open("Pvalue.csv", 'w')
+                    for i in range(motif_signal_shuf.shape[4]):
+                        for j in range(len(motif_cutoff)):
+                            mu = np.sum((motif_signal_shuf[..., i] > motif_cutoff[j] * np.max(motif_signal[..., i])) * 1) / NUM_SHUFFLE
+                            x = np.sum((motif_signal[..., i] > motif_cutoff[j] * np.max(motif_signal[..., i])) * 1)
+                            pvalue[i, j] = 1 - poisson.cdf(x - 1, mu)
+                            f_poisson.write(str(x) + '_' + str(mu) + '\t')
+                            f_pvalue.write(str(pvalue[i, j]) + '\t')
+                        f_poisson.write('\n')
+                        f_pvalue.write('\n')
+                    f_pvalue.close()
+                    f_poisson.close()
+                    '''
+                                        
+                    for key in data_keys:
+                        feature_dir = path_curr_net + "/" + key                    
+                        util.make_dir(feature_dir)                        
+                        os.chdir(feature_dir)
+                        
+                        f_binomial = open("Binomial.csv", 'w')
+                        f_pvalue = open("Pvalue.csv", 'w')
+                        
+                        pvalue = np.zeros(shape = (filter_num, len(motif_cutoff)))
+                        num_motif_instances = np.zeros(shape = (filter_num, len(motif_cutoff)))
+                        mu_value = np.zeros(shape = (filter_num, len(motif_cutoff)))
+
+                        # Calculate P-value based on the activated sequences in first 500 peaks and background sequences
+                        for i in range(motif_signal_background[key].shape[4]):
+                            for j in range(len(motif_cutoff)):                               
+                                mu = np.sum((np.max(motif_signal_background[key][..., i], axis = 2) > motif_cutoff[j] * np.max(motif_signal[key][..., i])) * 1) / NUM_SHUFFLE
+                                x = np.sum((np.max(motif_signal[key][..., i], axis = 1) > motif_cutoff[j] * np.max(motif_signal[key][..., i])) * 1)
+
+                                # If number of motif instances in background sequences is 0 and the corresponding threshold is not the lowest one, the p-value would be set to np.inf
+                                if mu == 0 and j != 0:
+                                    pvalue[i, j] = np.inf
+                                else:
+                                    pvalue[i, j] = binom.sf(x, motif_signal[key].shape[0], mu / motif_signal[key].shape[0])
+                                '''
+                                mu = np.sum((motif_signal_shuf[..., i] > motif_cutoff[j] * np.mean(motif_signal[..., i])) * 1) / NUM_SHUFFLE
+                                x = np.sum((motif_signal[..., i] > motif_cutoff[j] * np.mean(motif_signal[..., i])) * 1)
+                                pvalue[i, j] = 1 - poisson.cdf(x - 1, mu)
+                                '''
+                                mu_value[i, j] = mu
+                                num_motif_instances[i, j] = x                            
+                                f_binomial.write(str(x) + '_' + str(mu) + '\t')
+                                f_pvalue.write(str(pvalue[i, j]) + '\t')
+                            f_binomial.write('\n')
+                            f_pvalue.write('\n')
+                        f_pvalue.close()
+                        f_binomial.close()
+                    
+                        # Index of minimum P-value for each motif detector across predefined motif cutoffs
+                        index_min_pval = np.argmin(pvalue, axis = 1)
+
+                        # Record the P-value of each motif
+                        min_pvalue = np.amin(pvalue, axis = 1)
+                        with open("min_motif_pvalue.csv", "w") as f:
+                            f.write('Motif' + '\t' + 'Cutoff' + '\t' + 'P-value' + '\t' + '#Motif Instances' + '\n')
+                            for i in range(len(min_pvalue)):
+                                f.write(str(i + 1) + '\t' + str(motif_cutoff[index_min_pval[i]]) + '\t' + str(min_pvalue[i]) + '\t' + str(num_motif_instances[i, index_min_pval[i]]) + '_' + str(mu_value[i, index_min_pval[i]]) + '\n')
+                        
+                        # Record the position of the identified TFBSs
+                        #f_TFBS_posi = open('TFBS_posi.csv', 'w')
+                        #f_TFBS_posi.write('Motif' + '\t' + 'Start' + '\t' + 'End' + '\n')
+                        
+                        # Align the sequence segments that maximally activate them 
+                        for i in range(motif_signal[key].shape[3]):
+                            motif_dir = feature_dir + "/motif_" + str(i + 1)                    
+                            util.make_dir(motif_dir)                        
+                            os.chdir(motif_dir)
+                            
+                            # Record the sequence segments in plain format and FASTA format
+                            f_motif = open('seq_motif_instances.txt', 'w')
+                            f_motifFA = open('seq_motif_instances.fa', 'w')
+                            #f_motif_flank = open('motif_flank_' + str(i + 1) + '.fa', 'w')
+                            if feature_format in ['HelT', 'MGW', 'ProT', 'Roll', 'DNAShape'] or (feature_format == 'Seq_DNAShape' and key != '0'):
+                                shape_motif = []
+
+                            # P-value stragegy
+                            max_activation = motif_cutoff[index_min_pval[i]] * np.max(motif_signal[key][..., i])
+                            '''
+                            for j in range(motif_signal[key].shape[0]):
+                                for k in range(motif_signal[key].shape[1]):
+                                    if motif_signal[key][j, k, 0, i] > max_activation:
+                                        #f_TFBS_posi.write(str(i + 1) + '\t' + str(k + 1) + '\t' + str(k + filter_length + 1) + '\n')
+                                        f_motif.write(motif_sequences_alph[j][k : k + filter_length] + "\n")
+                                        f_motifFA.write('>seq' + str(j + 1) + '\n')
+                                        f_motifFA.write(motif_sequences_alph[j][k : k + filter_length] + "\n")
+                                        if feature_format in ['HelT', 'MGW', 'ProT', 'Roll', 'DNAShape'] or (feature_format == 'Seq_DNAShape' and key != '0'):
+                                            shape_motif.append(motif_data_comp[key][j, k : k + filter_length, 0, i])
+                        
+                            '''
+                            # DeepBind strategy
+                            for j in range(motif_signal[key].shape[0]):
+                                if np.amax(motif_signal[key][j, ..., i]) > max_activation:
+                                    index_max = np.argmax(motif_signal[key][j, ..., i])
+                                    #f_TFBS_posi.write(str(i + 1) + '\t' + str(index_max + 1) + '\t' + str(index_max + filter_length + 1) + '\n')
+                                    f_motif.write(motif_sequences_alph[j][index_max : index_max + filter_length] + "\n")
+                                    f_motifFA.write('>seq' + str(j + 1) + '\n')
+                                    f_motifFA.write(motif_sequences_alph[j][index_max : index_max + filter_length] + "\n")
+                                    
+                                    #f_motif_flank.write('>seq' + str(j + 1) + '\n')
+                                    #f_motif_flank.write(motif_sequences_alph_flank[j][index_max + 450 - 50 : index_max + 450 + filter_length + 50] + "\n")
+                                    if feature_format in ['HelT', 'MGW', 'ProT', 'Roll', 'DNAShape'] or (feature_format == 'Seq_DNAShape' and key != '0'):
+                                        shape_motif.append(util.convert_DNAShape(motif_data_comp[key][j, index_max : index_max + filter_length, 0, 0], feature_format, key))
+                            
+                            #f_motif_flank.close()
+                            f_motifFA.close()
+                            f_motif.close()
+                            #f_TFBS_posi.close()
+                            
+                            if feature_format in ['HelT', 'MGW', 'ProT', 'Roll', 'DNAShape'] or (feature_format == 'Seq_DNAShape' and key != '0'):
+                                np.save("shape_motif_instances.npy", np.array(shape_motif))
+                                np.savetxt("shape_motif_instances.csv", np.array(shape_motif), delimiter = ',')
+                            '''                            
+                            # Remove empty files
+                            if os.stat('seq_motif_instances.fa').st_size == 0:
+                                os.remove(motif_dir)
+                                continue                           
+                            '''
+                            # Generate motif logo (normal and reverse complement) using weblogo 2.8.2
+                            os.system(PATH_SEQLOGO + " -F PNG -a -n -Y -k 1 -c -w 50 -h 10 -f seq_motif_instances.fa > seqLogo.png")
+                            os.system(PATH_SEQLOGO + " -F PNG -a -k 1 -c -w 50 -h 10 -f seq_motif_instances.fa > seqLogo_pure.png")
+                            '''
+                            with open('weblogo.sh', 'w') as f:
+                                f.write('#!/bin/bash' + '\n')
+                                for i in range(motif_signal.shape[3]):
+                                    if os.path.exists('motif_' + str(i + 1) + '.fa'):
+                                        f.write(PATH_WEBLOGO3 + ' --resolution 600 -c classic --errorbars NO --format PNG < ' + 'motif_' + str(i + 1) + '.fa' + ' > ' + 'motif_' + str(i + 1) + '.png' + '\n')
+                                        /pylon2/ci4s87p/jyang3/proj_1/code/libs/weblogo.2.8.2/seqlogo -F PNG -a -n -Y -k 1 -c -w 50 -h 10 -f motif_1.fa > motif_1.png
+                                        f.write(PATH_WEBLOGO3 + ' --resolution 600 -c classic --errorbars NO --format PNG --revcomp < ' + 'motif_' + str(i + 1) + '.fa' + ' > ' + 'motif_rc' + str(i + 1) + '.png' + '\n')
+                            weblogo = subprocess.Popen(['sh', 'weblogo.sh'])
+                            weblogo.wait()
+                            '''
+                            
+                            # Convert the generated TFBS alignment to MEME motif format using sites2meme
+                            with open('motif.meme', 'wb') as out:
+                                p_sites2meme = subprocess.Popen(['sites2meme', motif_dir], stdout = out)
+                                p_sites2meme.wait()
+
+                            # Compare the identified motif with existing motif databases
+                            util.make_dir(motif_dir + '/JASPAR')
+                            util.make_dir(motif_dir + '/HOCOMOCO')
+                            util.make_dir(motif_dir + '/TRANSFAC')
+                            
+                            # Compare the obtained motifs with motif databases provided by MEME
+                            JASPAR_tt = subprocess.Popen(['tomtom', '-no-ssc', '-oc', motif_dir + '/JASPAR', '-verbosity', '1', '-min-overlap', '5', '-dist', 'pearson', '-thresh', '0.05', 'motif.meme', JASPAR_DB])
+                            JASPAR_tt.wait()
+                            HOCOMOCO_tt = subprocess.Popen(['tomtom', '-no-ssc', '-oc', motif_dir + '/HOCOMOCO', '-verbosity', '1', '-min-overlap', '5', '-dist', 'pearson', '-thresh', '0.05', 'motif.meme', HOCOMOCO_DB])
+                            HOCOMOCO_tt.wait()
+                            TRANSFAC_tt = subprocess.Popen(['tomtom', '-no-ssc', '-oc', motif_dir + '/TRANSFAC', '-verbosity', '1', '-min-overlap', '5', '-dist', 'pearson', '-thresh', '0.05', 'motif.meme', TRANSFAC_DB])
+                            TRANSFAC_tt.wait()
+                            #fimo --oc . --verbosity 1 --thresh 1.0E-4 motif.meme sequences.fa
