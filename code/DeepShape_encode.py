@@ -44,7 +44,7 @@ def main(argv = None):
                 # All datasets are loaded using the following function
                 [train_sequences, train_targets, train_sequences_alph,  train_HelT, train_MGW, train_ProT, train_Roll, train_dnaShape] = \
                 util.load_data_encode(PATH_ENCODE + "/" + train_data_name + "_AC.seq.gz", peak_coor, train_data_name, path_curr_data, "train", DNA_SHAPE, peak_flank, back_grou)
-                '''
+                
                 ####### Convert data to one-hot format #######
                 [train_sequences_array, train_targets_array, train_HelT_array, train_MGW_array, train_ProT_array, train_Roll_array] = \
                 util.oneHot_data_encode(train_sequences, train_targets, train_HelT, train_MGW, train_ProT, train_Roll, DNA_SHAPE)
@@ -54,11 +54,11 @@ def main(argv = None):
                 train_data_array['MGW'] = util.add_appendix(train_MGW_array, 0, filter_length)  
                 train_data_array['ProT'] = util.add_appendix(train_ProT_array, 0, filter_length)
                 train_data_array['Roll'] = util.add_appendix(train_Roll_array, 0, filter_length)
-                '''
+                
                 # All the data are loaded using the following function.
                 [test_sequences, test_targets, test_sequences_alph, test_HelT, test_MGW, test_ProT, test_Roll, test_dnaShape] = \
                 util.load_data_encode(PATH_ENCODE + "/" + train_data_name + "_B.seq.gz", peak_coor, train_data_name, path_curr_data, "test", DNA_SHAPE, peak_flank, back_grou)
-                '''
+                
                 ####### Convert data to one-hot format #######
                 [test_sequences_array, test_targets_array, test_HelT_array, test_MGW_array, test_ProT_array, test_Roll_array] = \
                 util.oneHot_data_encode(test_sequences, test_targets, test_HelT, test_MGW, test_ProT, test_Roll, DNA_SHAPE)
@@ -141,6 +141,6 @@ def main(argv = None):
                         index_best_samp = np.argmax(samp_perf[:, 5])
                         _ = train(train_data, train_targets, validation_data, validation_targets, path_curr_net, net, \
                                    samp_perf[index_best_samp, 0], samp_perf[index_best_samp, 1], samp_perf[index_best_samp, 2], samp_perf[index_best_samp, 3], samp_perf[index_best_samp, 4], test_data_comp, test_targets)
-                '''
+                
 if __name__ == '__main__':
     tf.app.run()
