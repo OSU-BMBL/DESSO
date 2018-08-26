@@ -1,1 +1,105 @@
-
+./SELEX3_2/SELEX3/CON3-18_sub/CON3-18.minor
+4.81 4.92 5.47 5.35 4.46 4.13 4.75 5.66 6.12 5.82 4.98 4.61 4.69 4.73 
+4.81 5.00 5.53 5.23 4.20 3.74 3.99 4.38 3.97 3.54 3.34 3.39 4.11 4.69 
+./SELEX3_2/SELEX3/UBX2-2_sub/UBX2-2.minor
+4.73 4.77 5.20 5.35 4.46 4.13 4.76 5.67 6.05 5.86 5.46 4.89 3.73 4.31 
+4.80 5.00 5.53 5.00 3.26 2.01 1.87 2.39 2.86 3.25 4.28 4.55 4.36 4.51 
+./SELEX3_2/SELEX3/HOX2-1_sub/HOX2-1.minor
+4.69 4.39 4.46 4.79 4.46 4.13 4.75 5.67 5.54 5.12 5.44 5.38 4.03 4.31 
+4.66 4.52 4.56 4.12 3.11 2.73 3.16 3.72 4.08 3.82 4.64 4.97 4.16 4.23 
+./SELEX3_2/SELEX3/HOX2-4_sub/HOX2-4.minor
+4.69 4.39 4.46 4.79 4.46 4.81 5.46 5.52 4.46 4.82 5.45 5.42 4.06 4.31 
+4.72 4.50 4.61 4.68 4.56 4.79 5.33 5.59 3.10 1.64 1.76 1.92 1.96 2.84 
+./SELEX3_2/SELEX3/CON2-22_sub/CON2-22.minor
+4.26 4.25 5.15 5.70 5.37 5.14 5.76 5.13 4.83 4.79 5.20 5.82 5.95 5.88 
+4.13 4.04 5.02 5.48 5.18 5.52 5.73 5.30 5.01 4.40 4.39 3.92 4.29 4.33 
+./SELEX4_2/SELEX4/Antp-63_1/Antp-63_1.minor
+4.05 5.40 5.45 5.12 5.54 5.66 4.75 4.12 4.46 4.79 5.08 4.84 4.94 5.58 
+2.59 3.46 3.70 3.34 4.22 5.12 5.03 4.79 4.73 5.17 5.04 4.72 4.99 5.51 
+./SELEX4_2/SELEX4/UbxIVa-44_2/UbxIVa-44_2.minor
+5.32 4.94 4.84 5.07 4.79 4.46 4.12 4.75 5.66 5.54 5.13 5.45 5.44 4.71 
+5.14 4.87 4.91 5.22 5.12 4.66 4.68 4.95 4.92 3.70 2.14 2.00 2.01 1.77 
+./SELEX4_2/SELEX4/Lab-75_1/Lab-75_1.minor
+4.73 5.44 5.45 4.82 4.22 4.95 5.34 5.53 5.22 4.79 4.46 4.39 4.42 5.14 
+2.35 2.60 2.52 2.26 3.09 4.43 5.45 5.61 5.21 5.02 4.67 4.31 4.61 4.97 
+./Pentamers_4/AGCGG_f0_1/AGCGG_f0_1.minor
+5.46 5.19 5.01 5.18 5.37 5.09 5.41 
+5.40 5.54 5.32 4.99 5.21 5.03 5.34 
+./Selex5_2/Lab-22_3/Lab-22_3.minor
+4.69 4.39 4.46 4.79 4.46 4.81 5.46 5.52 4.46 4.81 5.44 5.39 4.80 4.73 
+4.76 4.55 4.74 4.65 4.29 4.47 5.22 5.38 5.09 5.14 5.64 4.16 2.11 3.20 
+./SELEX4_1/AbdA-42_1/AbdA-42_1.minor
+4.34 3.62 3.84 4.46 4.79 4.46 4.13 4.75 5.66 5.54 5.12 5.44 5.43 4.71 
+4.65 4.13 3.70 4.03 4.28 3.77 3.57 4.10 3.90 3.23 3.73 5.14 5.55 4.85 
+./Pentamers_1/GGTGG_2/GGTGG_2.minor
+5.30 4.70 4.79 5.55 5.53 5.14 5.41 5.54 
+5.26 4.70 4.52 5.62 4.58 2.70 3.87 5.42 
+./old_data/1skp/1skp.minor
+5.34 5.34 5.84 4.79 5.38 
+5.25 5.29 5.25 5.28 5.00 
+./old_data/bdj061/bdj061.minor
+5.14 4.95 4.95 5.14 5.31 
+4.86 5.39 5.39 4.82 5.48 
+NA detected ./GCR/gilz_2/gilz_2.minor
+NA detected ./GCR/fkbp5_2/fkbp5_2.minor
+NA detected ./GCR/sam_1/sam_1.minor
+NA detected ./GCR/pal4bpspace_3/pal4bpspace_3.minor
+NA detected ./GCR/kiaagbs28_2/kiaagbs28_2.minor
+NA detected ./GCR/gilz_1/gilz_1.minor
+NA detected ./GCR/cgt_1/cgt_1.minor
+NA detected ./GCR/fkbp5_1/fkbp5_1.minor
+NA detected ./GCR/kiaagbs28_3/kiaagbs28_3.minor
+NA detected ./GCR/pal_3/pal_3.minor
+NA detected ./GCR/tat_3/tat_3.minor
+NA detected ./GCR/sam_2/sam_2.minor
+NA detected ./GCR/sam_3/sam_3.minor
+NA detected ./GCR/cons_3/cons_3.minor
+NA detected ./GCR/sgk_3/sgk_3.minor
+NA detected ./GCR/tat_2/tat_2.minor
+NA detected ./GCR/sgk2_1/sgk2_1.minor
+NA detected ./GCR/gilz_3/gilz_3.minor
+NA detected ./GCR/cons_1/cons_1.minor
+NA detected ./GCR/sgk2_2/sgk2_2.minor
+NA detected ./GCR/fkbp5_3/fkbp5_3.minor
+NA detected ./GCR/sgk2_3/sgk2_3.minor
+NA detected ./GCR/tat3bp_2/tat3bp_2.minor
+NA detected ./GCR/pal4bpspace_2/pal4bpspace_2.minor
+NA detected ./GCR/tat3bp_3/tat3bp_3.minor
+NA detected ./GCR/sgk_2/sgk_2.minor
+NA detected ./GCR/tat3bp_1/tat3bp_1.minor
+NA detected ./GCR/tat_1/tat_1.minor
+NA detected ./GCR/sgk_1/sgk_1.minor
+NA detected ./GCR/cgt_2/cgt_2.minor
+NA detected ./GCR/pal_2/pal_2.minor
+NA detected ./GCR/cgt_3/cgt_3.minor
+NA detected ./GCR/cons_2/cons_2.minor
+NA detected ./GCR/kiaagbs28_1/kiaagbs28_1.minor
+NA detected ./GCR/pal4bpspace_1/pal4bpspace_1.minor
+NA detected ./SimRes/gata9_3/gata9_3.minor
+NA detected ./SimRes/gata_dna_3/gata_dna_3.minor
+NA detected ./SimRes/gata_dna_2/gata_dna_2.minor
+NA detected ./SimRes/gata10_2/gata10_2.minor
+NA detected ./SimRes/gata1_2/gata1_2.minor
+NA detected ./SimRes/gata_dna_1/gata_dna_1.minor
+NA detected ./SimRes/gata1_3/gata1_3.minor
+NA detected ./SimRes/gata10_1/gata10_1.minor
+NA detected ./SimRes/gata1_1/gata1_1.minor
+NA detected ./SimRes/gata9_1/gata9_1.minor
+NA detected ./SimRes/gata10_3/gata10_3.minor
+NA detected ./SimRes/gata9_2/gata9_2.minor
+./SimRes/HexC_13_2/HexC_13_2.minor
+5.37 5.09 4.91 4.77 4.67 4.90 5.02 5.02 
+2.97 4.30 5.20 5.10 4.82 4.93 5.00 4.95 
+./SELEX3_1/HOX3-16_sub/HOX3-16.minor
+4.95 5.42 5.44 4.65 4.75 5.36 5.33 4.46 4.12 5.66 5.54 5.12 5.44 5.43 5.13 5.38 
+4.78 5.42 5.33 5.01 5.07 5.86 5.96 5.34 4.84 4.74 4.34 4.04 4.79 5.23 5.12 5.56 
+./SELEX3_1/HOX1-15_sub/HOX1-15.minor
+4.95 5.47 5.50 4.95 4.84 5.07 4.79 4.46 4.12 4.75 5.66 5.53 5.11 5.44 5.43 5.13 5.38 
+4.61 4.26 3.55 4.56 5.29 5.72 5.48 4.62 4.30 4.51 5.13 5.04 4.77 5.42 5.57 5.15 5.43 
+./SELEX3_1/SCR2-13_sub/SCR2-13.minor
+4.95 4.85 5.08 4.79 4.46 4.81 5.58 5.86 4.67 4.47 5.40 5.15 4.61 4.03 3.68 4.35 4.63 
+3.44 2.32 3.97 5.35 5.22 4.63 5.20 5.34 4.78 4.76 5.46 5.29 4.52 4.22 4.12 4.45 4.94 
+NA detected ./SELEX3_1/SCR1-16_sub/SCR1-16.minor
+./Selex6_1/Dfd-70_1/Dfd-70_1.minor
+4.69 4.39 4.46 4.79 5.40 5.93 5.67 4.75 3.85 4.46 4.79 4.77 4.96 5.28 5.40 
+4.96 4.62 4.50 4.14 3.48 3.65 3.42 3.20 3.14 4.19 5.14 5.24 5.17 5.42 5.22 
