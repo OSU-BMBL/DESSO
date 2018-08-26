@@ -1,3 +1,3 @@
-# DESSO
-The DESSO package identifies unique genomic patterns (or motifs) from ChIP-seq peaks by discriminating bound and unbound DNA sequences
-based on convolutional neural network (CNN) and gated convolutional neural network (GCNN).
+# DESSO (DEep Sequence and Shape mOtif)
+DESSO is a deep learning-based framework, which can be used to accurately identify both sequence and shape regulatory motifs from ENCODE ChIP-seq datasets.
+![The DESSO framework](http://url/to/img.png)
