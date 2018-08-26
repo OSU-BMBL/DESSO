@@ -17,8 +17,9 @@ Train CNN models on specified ChIP-seq datasets:
 ```
 python DESSO.py --start_index 0 --end_index 1 --peak_flank 50 --network CNN --feature_format Seq
 ```
+Arguments | Description
+--------------|---------------------------------------------------------
 --start_index | Start index of the 690 ENCODE ChIP-seq datasets
------------------------------------
 --end_index | END index of the 690 ENCODE ChIP-seq datasets
 --peak_flank | Number of flanking base pairs at each side of peak summit
 --network | Neural network used in model training
