@@ -8,7 +8,6 @@ import numpy as np
 from constants import *
 import tensorflow as tf
 import collections
-sys.path.append(PATH_LIBS + '/biopython')
 from Bio import SeqIO
 from Bio import SeqUtils
 
