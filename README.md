@@ -25,6 +25,8 @@ Arguments | Description
 --network | Neural network used in model training
 --feature_format | Feature format of the input
 
+DESSO
+
 ## Motif Prediction
 Obtain either sequence or shape motif using the binomial distribution strategy based on the trained models above:
 
