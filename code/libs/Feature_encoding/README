@@ -1,0 +1,46 @@
+SYNOPIS
+    Feature_encoding.pl input_file
+
+DESCRIPTION
+    Feature_encoding.pl is a perl script that performs feature encoding on the input file. 
+    The input file needs to have extension '.txt.s' and contains content in the following format:
+
+    <Measure 1> <Sequence 1>
+    <Measure 2> <Sequence 2>
+    ......
+    <Measure N> <Sequence N>
+
+    Here is one example: (extracted from the file "sample_input.txt.s" in the folder "Sample_input")
+
+    8.0578  TTGTCAATTATATGCTAAG
+    7.8521  GCTGAGGTTACACTTGACT
+    ......
+    7.7909  TGCAGAGTTACGACATTAG
+
+    For a given input file, the following feature combinations will be generated:
+    #Feature combination  -->  #File label
+    1mer --> 1mer
+    1mer+2mer --> 1a2mer
+    1mer+2mer+3mer --> 1a2a3mer
+    1mer+shape --> 1mer4shape
+    shape --> 4shape
+    1mer+MGW --> 1merM
+    1mer+Roll --> 1merR
+    1mer+HelT --> 1merT
+    1mer_ProT --> 1merP
+    1mer+MGW+Roll --> 1merMR
+    1mer+Roll+ProT --> 1merRP
+    1mer+2mer+shape -->1a2mer4shape
+
+    For each feature combination the following three files will be generated:
+    1. '.libsvm' -- feature combinations in libsvm format
+    2. '.matlab' -- feature combinations in matlab format 
+    3. '.label' -- The labels of all the features
+
+    Also, you can fine-tune the behavior of the feature encoding by setting the options 
+    listed between line 35 and 45 of the script 'Feature_encoding.pl'.
+
+    Feel free to contact me if you have any questions. (zhoutianyin@hotmail.com)
+
+
+    
