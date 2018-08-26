@@ -20,13 +20,9 @@ python DESSO.py --start_index 0 --end_index 1 --peak_flank 50 --network CNN --fe
 --start_index | Start index of the 690 ENCODE ChIP-seq datasets
 -----------------------------------
 --end_index | END index of the 690 ENCODE ChIP-seq datasets
------------------------------------
 --peak_flank | Number of flanking base pairs at each side of peak summit
------------------------------------
 --network | Neural network used in model training
------------------------------------
 --feature_format | Feature format of the input
------------------------------------
 
 ## Motif Prediction
 Obtain either sequence or shape motif using the binomial distribution strategy based on the trained models above:
