@@ -8,7 +8,6 @@ import util as util
 
 import numpy as np
 import tensorflow as tf
-sys.path.append("/home/xsede/users/xs-viyjy/lib/python2.7/site-packages/")
 from sklearn.metrics import roc_auc_score
 
 def train(train_data, train_targets, validation_data, validation_targets, path_curr_net, net, drop_out_rate, learning_rate_init, learning_momentum, lambda_regulate, std_weights, test_data = None, test_targets = None):
