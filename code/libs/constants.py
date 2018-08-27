@@ -9,6 +9,7 @@ PATH_LIBS = os.path.join(PATH_CODE, 'libs')
 
 PATH_ENCODE_TFBS = PATH_DATA + "/encode_tfbs.txt"
 PATH_ENCODE_TFBS_UNIF = PATH_DATA + "/TfbsUniform_hg19_ENCODE"
+PATH_SEQLOGO = os.path.join(PATH_LIBS, 'weblogo.2.8.2/seqlogo')
 
 BACK_GROU = ['gc_match']    # Methods for generating negative sequences ['gc_match', 'rand_geno', 'dinu_shuf']
 SEQUENCE_WIDTH = 4          # 'ACGT'
