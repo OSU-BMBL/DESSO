@@ -13,7 +13,7 @@ DESSO is a deep learning-based framework that can be used to accurately identify
 * Download [GRCh37.p13.genome.fa](), [encode_101_background]() and put them into ```data/```
 
 ## Model Training
-For example, train a CNN model on the first dataset (i.e., wgEncodeEH002288) in [https://genome.ucsc.edu/ENCODE/downloads.html]:
+Train CNN models for specificied datasets: 
 ```
 cd code/
 python DESSO.py --start_index 0 --end_index 1 --peak_flank 50 --network CNN --feature_format Seq
@@ -26,7 +26,9 @@ Arguments | Description
 --network | Neural network used in model training
 --feature_format | Feature format of the input
 
-The 690 ChIP-seq dataset can be found in . 
+DESSO can be applied to the [690 ChIP-seq datasets](https://genome.ucsc.edu/ENCODE/downloads.html). 
+```--start_index 0 --end_index 1``` above indicates the first dataset (i.e., wgEncodeEH002288) was used for model training.
+```--peak_flank 50``` indicates the peak length is 101 bps
 
 ## Motif Prediction
 Obtain either sequence or shape motif using the binomial distribution strategy based on the trained models above:
