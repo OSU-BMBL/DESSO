@@ -1,5 +1,5 @@
 # DESSO (DEep Sequence and Shape mOtif)
-DESSO is a deep learning-based framework that can be used to accurately identify both sequence and shape regulatory motifs from ENCODE ChIP-seq datasets.
+DESSO is a deep learning-based framework that can be used to accurately identify both sequence and shape regulatory motifs from the human genome. It was evaluated on the [690 ChIP-seq datasets](https://genome.ucsc.edu/ENCODE/downloads.html).
 
 <p align="center"> 
 <img src="https://github.com/viyjy/DESSO/blob/master/Figure.PNG">
@@ -10,7 +10,8 @@ DESSO is a deep learning-based framework that can be used to accurately identify
 * CUDA 8.0.44
 * Biopython 1.7.0
 * Scikit-learn
-* Download [GRCh37.p13.genome.fa](http://bmbl.sdstate.edu/downloadFiles/GRCh37.p13.genome.fa) and [encode_101_background](http://bmbl.sdstate.edu/downloadFiles/encode_101_background.7z), then put them into ```data/```
+* Download [GRCh37.p13.genome.fa](http://bmbl.sdstate.edu/downloadFiles/DESSO/GRCh37.p13.genome.fa) and [encode_101_background](http://bmbl.sdstate.edu/downloadFiles/DESSO/encode_101_background.7z), then put them into ```data/```
+* Only wgEncodeEH002288-related data were attached to ```data/encode_101```, ```data/encode_1001```, and ```data/TfbsUniform_hg19_ENCODE```, where wgEncodeEH002288 is UCSC Accession of the first dataset in the 690 ChIP-seq datasets. The whole data could be accessed at [encode_101](), [encode_1001](), and [TfbsUniform_hg19_ENCODE]().
 
 ## Model Training
 Train CNN models for specificied ChIP-seq datasets: 
@@ -28,7 +29,7 @@ Arguments | Description
 
 DESSO can be applied to the [690 ChIP-seq datasets](https://genome.ucsc.edu/ENCODE/downloads.html) <br/>
 ```--start_index 0 --end_index 1``` above indicates the first dataset (i.e., wgEncodeEH002288) <br/>
-```--peak_flank 50``` indicates the peak length is 101 bps <br/>
+```--peak_flank 50``` indicates the peak length is 101 base pairs <br/>
 ```--network``` can be CNN or GCNN <br/>
 ```--feature_format``` can be Seq or DNAShape, where Seq indicates the input is sequences, DNAShape indicates the input is the combination of four DNA shape features
 
