@@ -13,7 +13,7 @@ DESSO is a deep learning-based framework that can be used to accurately identify
 * Download [GRCh37.p13.genome.fa](http://bmbl.sdstate.edu/downloadFiles/GRCh37.p13.genome.fa) and [encode_101_background](http://bmbl.sdstate.edu/downloadFiles/encode_101_background.7z), then put them into ```data/```
 
 ## Model Training
-Train CNN models for specificied datasets: 
+Train CNN models for specificied ChIP-seq datasets: 
 ```
 cd code/
 python DESSO.py --start_index 0 --end_index 1 --peak_flank 50 --network CNN --feature_format Seq
@@ -26,12 +26,18 @@ Arguments | Description
 --network | Neural network used in model training
 --feature_format | Feature format of the input
 
-DESSO can be applied to the [690 ChIP-seq datasets](https://genome.ucsc.edu/ENCODE/downloads.html). 
-```--start_index 0 --end_index 1``` above indicates the first dataset (i.e., wgEncodeEH002288) was used for model training.
-```--peak_flank 50``` indicates the peak length is 101 bps
+DESSO can be applied to the [690 ChIP-seq datasets](https://genome.ucsc.edu/ENCODE/downloads.html) <br/>
+```--start_index 0 --end_index 1``` above indicates the first dataset (i.e., wgEncodeEH002288) <br/>
+```--peak_flank 50``` indicates the peak length is 101 bps <br/>
+```--network``` can be CNN or GCNN <br/>
+```--feature_format``` can be Seq or DNAShape, where Seq indicates the input is sequences, DNAShape indicates the input is the combination of four DNA shape features
 
 ## Motif Prediction
 Obtain either sequence or shape motif using the binomial distribution strategy based on the trained models above:
+```
+cd code/
+python motifPredict.py --start_index 0 --end_index 1 --peak_flank 50 --network CNN --feature_format Seq
+```
 
 ## Citation
 If you use DESSO in your research, please cite the following paper.
