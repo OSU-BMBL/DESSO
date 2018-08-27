@@ -10,7 +10,7 @@ DESSO is a deep learning-based framework that can be used to accurately identify
 * CUDA 8.0.44
 * Biopython 1.7.0
 * Scikit-learn
-* Download [GRCh37.p13.genome.fa](), [encode_101_background]() and put them into ```data/```
+* Download [GRCh37.p13.genome.fa](http://bmbl.sdstate.edu/downloadFiles/GRCh37.p13.genome.fa) and [encode_101_background](http://bmbl.sdstate.edu/downloadFiles/encode_101_background.7z), then put them into ```data/```
 
 ## Model Training
 Train CNN models for specificied datasets: 
