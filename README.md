@@ -36,7 +36,7 @@ DESSO can be applied to the [690 ChIP-seq datasets](https://genome.ucsc.edu/ENCO
 Obtain either sequence or shape motif using the binomial distribution strategy based on the trained models above:
 ```
 cd code/
-python motifPredict.py --start_index 0 --end_index 1 --peak_flank 50 --network CNN --feature_format Seq
+python motifPredict.py --start_index 0 --end_index 1 --peak_flank 50 --network CNN --feature_format Seq --start_cutoff 0.5 --end_cutoff 1 --step_cutoff 0.03
 ```
 
 ## Citation
