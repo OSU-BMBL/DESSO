@@ -30,7 +30,7 @@ Arguments | Description
 ```--start_index 0 --end_index 1``` indicates the first dataset (i.e., wgEncodeEH002288). To train models for the second and third datasets, use ```--start_index 1 --end_index 3``` <br/>
 ```--peak_flank 50``` indicates the peak length is (2 * 50 + 1) = 101 base pairs <br/>
 ```--network``` indicates that CNN is used here <br/>
-```--feature_format``` can be Seq or DNAShape, where Seq indicates the input is DNA sequences, DNAShape indicates the input is the combination of four DNA shape features (i.e., HelT, MGW, ProT, and Roll)
+```--feature_format``` can be Seq or DNAShape, where Seq indicates the input is DNA sequences, DNAShape indicates the input is the combination of four DNA shape features (i.e., HelT, MGW, ProT, and Roll).
 
 ## Motif Prediction
 Obtain either sequence or shape motifs based on the trained models above:
@@ -44,7 +44,9 @@ Arguments | Description
 --end_cutoff | End of the motif cutoff interval (default is 1)
 --step_cutoff | Increament of the cutoff (default is 0.03)
 
-## Predict TF-DNA Binding Specicitity Using Gated-CNN 
+```--feature_format Seq``` indicates that sequence motifs will be identified. To identify shape motifs, use ```--feature_format DNAShape``` instead.
+
+## Predict TF-DNA Binding Specicitity Based on Gated-CNN and Long DNA Sequence
 ```
 cd code/
 python train.py --start_index 0 --end_index 1 --peak_flank 500 --network GCNN --feature_format Seq
