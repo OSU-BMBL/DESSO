@@ -47,7 +47,7 @@ Arguments | Description
 
 ```--feature_format Seq``` indicates that sequence motifs will be predicted. To identify shape motifs, use ```--feature_format DNAShape``` instead.
 
-## Predict TF-DNA Binding Specicitity Based on Gated-CNN and Long DNA Sequence
+## Predict TF-DNA Binding Specicitity Using Gated-CNN and Long DNA Sequence
 ```
 cd code/
 python train.py --start_index 0 --end_index 1 --peak_flank 500 --network GCNN --feature_format Seq
