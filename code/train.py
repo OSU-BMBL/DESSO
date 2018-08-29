@@ -27,7 +27,7 @@ flags.DEFINE_integer('start_index', 0, 'Start index of the 690 ENCODE ChIP-seq d
 flags.DEFINE_integer('end_index', 1, 'END index of the 690 ENCODE ChIP-seq datasets.')
 flags.DEFINE_integer('peak_flank', 50, 'Number of flanking base pairs at each side of peak summit.')
 flags.DEFINE_string('network', 'CNN', 'Neural network used in model training.')
-flags.DEFINE_string('feature_format', 'Seq', 'Feature format of the input.')    # ['Seq', 'DNAShape']
+flags.DEFINE_string('feature_format', 'Seq', 'Feature format of the input.')  
 
 PEAK_FLANK = [int(FLAGS.peak_flank)]
 NETWORK = [FLAGS.network]
