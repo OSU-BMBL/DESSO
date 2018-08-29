@@ -8,8 +8,13 @@ import numpy as np
 from constants import *
 import tensorflow as tf
 import collections
+sys.path.append(PATH_LIBS + '/biopython')
 from Bio import SeqIO
 from Bio import SeqUtils
+from Bio import AlignIO
+from Bio.Align import AlignInfo
+from Bio.Alphabet import IUPAC
+from Bio.SubsMat import FreqTable
 
 # Get human genome sequence and shape
 path_genome = PATH_DATA + '/GRCh37.p13.genome.fa'    # Fasta files of Release 19 (GRCh37.p13)
@@ -228,3 +233,15 @@ def convert_DNAShape(normalized_DNAShape, feature_format, key):
         return (normalized_DNAShape * ProT_span_first + ProT_min_first)
     elif feature_format == "Roll" or (feature_format == "DNAShape" and key == "3"):
         return (normalized_DNAShape * Roll_span_first + Roll_min_first)
+
+
+# Calculate infomration content of given sequences
+def cal_IC(path_motifInstance):    
+    e_freq_table = FreqTable.FreqTable(EXPECT_FREQ, FreqTable.FREQ, IUPAC.unambiguous_dna)
+    information_content = []
+    alignment = AlignIO.read(path_motifInstance, "fasta")
+    summary_align = AlignInfo.SummaryInfo(alignment)
+
+    for j in range(FILTER_LENGTH):                
+        information_content.append(summary_align.information_content(j, j + 1, e_freq_table = e_freq_table, chars_to_ignore = ['N']))
+    return information_content

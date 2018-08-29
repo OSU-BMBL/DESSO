@@ -55,3 +55,21 @@ Roll_span_first = Roll_max_first - Roll_min_first
 HelT_max_first = 38.05
 HelT_min_first = 30.94
 HelT_span_first = HelT_max_first - HelT_min_first
+
+# Expected frequency of four nucleotides
+EXPECT_FREQ = {"A": 0.25, 
+               "G": 0.25, 
+               "T": 0.25, 
+               "C": 0.25}
+
+# 10% and 90% percentile of four DNA shape features in the human genome
+SHAPE_THRESHOLD = {'HelT' : [31.78, 36.53],
+                   'MGW' : [4.14, 5.73],
+                   'ProT' : [-12.27, -2.47],
+                   'Roll' : [-4.33, 4.88]}
+
+# Key->shapeFeature
+KEY_SHAPE = {"0" : "HelT",
+             "1" : "MGW",
+             "2" : "ProT",
+             "3" : "Roll"}
