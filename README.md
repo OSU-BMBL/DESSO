@@ -39,7 +39,7 @@ cd code/
 python predict.py --start_index 0 --end_index 1 --peak_flank 50 --network CNN --feature_format Seq --start_cutoff 0.01 --end_cutoff 1 --step_cutoff 0.03
 ```
 Arguments | Description
----------------------------------------------------------------------
+----------|----------------------------------------------------------
 --start_cutoff | Start of the motif cutoff interval (default is 0.01)
 --end_cutoff | End of the motif cutoff interval (default is 0.01)
 --step_cutoff | Increament of the cutoff (default is 0.03)
