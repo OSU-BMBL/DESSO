@@ -1,5 +1,5 @@
 # DESSO (DEep Sequence and Shape mOtif)
-DESSO is a deep learning-based framework that can be used to accurately identify both sequence and shape regulatory motifs from the human genome. It was evaluated on the [690 ChIP-seq datasets](https://genome.ucsc.edu/ENCODE/downloads.html).
+DESSO is a deep learning-based framework that can be used to accurately identify both sequence and shape regulatory motifs from the human genome. The performance of DESSO was evaluated on the [690 ChIP-seq datasets](https://genome.ucsc.edu/ENCODE/downloads.html).
 
 <p align="center"> 
 <img src="https://github.com/viyjy/DESSO/blob/master/Figure.PNG">
@@ -10,8 +10,8 @@ DESSO is a deep learning-based framework that can be used to accurately identify
 * CUDA 8.0.44
 * Biopython 1.7.0
 * Scikit-learn
-* Download [GRCh37.p13.genome.fa](http://bmbl.sdstate.edu/downloadFiles/DESSO/GRCh37.p13.genome.fa) and [encode_101_background](http://bmbl.sdstate.edu/downloadFiles/DESSO/encode_101_background.7z), then put them into ```data/```
-* Only wgEncodeEH002288-related data were attached to ```data/encode_101```, ```data/encode_1001```, and ```data/TfbsUniform_hg19_ENCODE```, where wgEncodeEH002288 is UCSC Accession of the first dataset in the 690 ChIP-seq datasets. The whole data could be accessed at [encode_101](), [encode_1001](), and [TfbsUniform_hg19_ENCODE]().
+* Download [GRCh37.p13.genome.fa](http://bmbl.sdstate.edu/downloadFiles/DESSO/GRCh37.p13.genome.fa) and [encode_101_background](http://bmbl.sdstate.edu/downloadFiles/DESSO/encode_101_background.zip), then put them into ```data/```
+* Only wgEncodeEH002288-related data were attached to ```data/encode_101```, ```data/encode_1001```, and ```data/TfbsUniform_hg19_ENCODE```, where wgEncodeEH002288 is UCSC Accession of the first dataset in the 690 ChIP-seq datasets. The whole data could be accessed at [encode_101](http://bmbl.sdstate.edu/downloadFiles/DESSO/encode_101.zip), [encode_1001](http://bmbl.sdstate.edu/downloadFiles/DESSO/encode_1001.zip), and [TfbsUniform_hg19_ENCODE](http://bmbl.sdstate.edu/downloadFiles/DESSO/TfbsUniform_hg19_ENCODE.zip).
 
 ## Model Training
 Train CNN models for specificied ChIP-seq datasets: 
