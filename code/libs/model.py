@@ -18,11 +18,11 @@ def model(data, para, data_keys, net, train = False):
     
     ''' Gated Convolutional Neural Network '''
     if net == 'GCNN':        
-        conv1 = tf.nn.conv2d(data, 
-                            para['conv1_weights'],
+        conv1 = tf.nn.conv2d(data[0], 
+                            para['conv1_weights']['0'],
                             strides = [1, 1, 1, 1],
                             padding = 'VALID')
-        relu1 = tf.nn.relu(tf.nn.bias_add(conv1, para['conv1_biases']))
+        relu1 = tf.nn.relu(tf.nn.bias_add(conv1, para['conv1_biases']['0']))
         pool1 = tf.nn.max_pool(relu1,
                                ksize = [1, 10, 1, 1],
                                strides = [1, 10, 1, 1],
