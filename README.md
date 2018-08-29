@@ -23,9 +23,9 @@ Arguments | Description
 --------------|---------------------------------------------------------
 --start_index | Start index of the 690 ENCODE ChIP-seq datasets
 --end_index | END index of the 690 ENCODE ChIP-seq datasets
---peak_flank | Number of flanking base pairs at each side of peak summit
---network | Neural network used in model training
---feature_format | Feature format of the input
+--peak_flank | Number of flanking base pairs at each side of peak summit (default is 50)
+--network | Neural network used in model training (default is CNN)
+--feature_format | Feature format of the input (default is Seq)
 
 ```--start_index 0 --end_index 1``` indicates the first dataset (i.e., wgEncodeEH002288). To train models for the second and third datasets, use ```--start_index 1 --end_index 3``` <br/>
 ```--peak_flank 50``` indicates the peak length is (2 * 50 + 1) = 101 base pairs <br/>
@@ -41,7 +41,7 @@ python predict.py --start_index 0 --end_index 1 --peak_flank 50 --network CNN --
 Arguments | Description
 ----------|----------------------------------------------------------
 --start_cutoff | Start of the motif cutoff interval (default is 0.01)
---end_cutoff | End of the motif cutoff interval (default is 0.01)
+--end_cutoff | End of the motif cutoff interval (default is 1)
 --step_cutoff | Increament of the cutoff (default is 0.03)
 
 ## Predict TF-DNA Binding Specicitity Using Gated-CNN 
