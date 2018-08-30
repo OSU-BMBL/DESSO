@@ -6,7 +6,7 @@ DESSO is a deep learning-based framework that can be used to accurately identify
 </p>
 
 ## Prerequisites and Dependencies
-* Tensorflow 1.1.0 [Install](https://www.tensorflow.org/install/)
+* Tensorflow 1.1.0 [[Install]](https://www.tensorflow.org/install/)
 * CUDA 8.0.44
 * Python 2.7
 * Biopython 1.7.0
