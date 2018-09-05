@@ -67,7 +67,8 @@ output/encode_101/gc_match/wgEncodeEH002288/DNAShape/CNN/3 | Roll motif
 cd code/
 python train.py --start_index 0 --end_index 1 --peak_flank 500 --network GCNN --feature_format Seq
 ```
-```--peak_flank 500``` indicates the peak length is (2 * 500 + 1) = 1001 base pairs <br/>
+```--network GCNN``` indicates that GCNN is used for model training
+```--peak_flank 500``` indicates that the peak length is (2 * 500 + 1) = 1001 base pairs <br/>
 
 ### Output
 The trained model and its AUC on test data (```Test_result.txt```) is located at ```output/encode_1001/gc_match/wgEncodeEH002288/Seq/GCNN```.
