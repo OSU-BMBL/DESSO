@@ -14,7 +14,7 @@ DESSO is a deep learning-based framework that can be used to accurately identify
 * Download [GRCh37.p13.genome.fa](http://bmbl.sdstate.edu/DESSO/tools/GRCh37.p13.genome.fa.zip) and [encode_101_background](http://bmbl.sdstate.edu/DESSO/tools/encode_101_background.zip), then unzip them and put them into ```data/```
 * ```data/encode_101```, ```data/encode_1001```, and ```data/TfbsUniform_hg19_ENCODE``` only contain wgEncodeEH002288-related data as an example. The source code and whole data can be accessed at [code+whole data](http://bmbl.sdstate.edu/DESSO/tools/DESSO-master-whole.zip).
 
-## Model Training Based on CNN
+## Model Training Based on Convolutional Neural Network (CNN)
 Train CNN models on specified datasets: 
 ```
 cd code/
@@ -33,6 +33,10 @@ Arguments | Description
 ```--network``` indicates that CNN is used here <br/>
 ```--feature_format``` can be Seq or DNAShape, where Seq indicates the input is DNA sequences, DNAShape indicates the input is the combination of four DNA shape features (i.e., HelT, MGW, ProT, and Roll).
 
+### Output
+If ```--feature_format Seq``` was used, the trained model can be found at ```/output/encode_101/gc_match/wgEncodeEH002288/Seq/CNN```, together with ```Test_result.txt``` indicating the area under the receiver operating characteristic curve (AUC) of the trained model in predicting TF-DNA binding specificity on the test data.
+If ```--feature_format DNAShape``` was used, the trained model is located at ```/output/encode_101/gc_match/wgEncodeEH002288/DNAShape/CNN```.
+
 ## Motif Prediction
 Obtain either sequence or shape motifs based on the trained models above:
 ```
@@ -46,6 +50,17 @@ Arguments | Description
 --step_cutoff | Increament of the cutoff (default is 0.03)
 
 ```--feature_format Seq``` indicates that sequence motifs will be predicted. To identify shape motifs, use ```--feature_format DNAShape``` instead.
+
+### Output
+For ```--feature_format Seq```, the predicted sequence motifs are in ```output/encode_101/gc_match/wgEncodeEH002288/Seq/CNN/0```.
+For ```--feature_format DNAShape```, four kinds of shape motifs would be predicted as shown in the following table:
+
+Location | Type of predicted shape motif
+-----------------------------------------------------------------|-----------------------------
+```output/encode_101/gc_match/wgEncodeEH002288/DNAShape/CNN/0``` | HelT motif
+```output/encode_101/gc_match/wgEncodeEH002288/DNAShape/CNN/1``` | MGW motif
+```output/encode_101/gc_match/wgEncodeEH002288/DNAShape/CNN/2``` | ProT motif
+```output/encode_101/gc_match/wgEncodeEH002288/DNAShape/CNN/3``` | Roll motif
 
 ## Predict TF-DNA Binding Specicitity Using Gated-CNN and Long DNA Sequence
 ```
