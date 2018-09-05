@@ -34,7 +34,7 @@ Arguments | Description
 ```--feature_format``` can be Seq or DNAShape, where Seq indicates the input is DNA sequences, DNAShape indicates the input is the combination of four DNA shape features (i.e., HelT, MGW, ProT, and Roll).
 
 ### Output
-If ```--feature_format Seq``` was used, the trained model can be found at ```/output/encode_101/gc_match/wgEncodeEH002288/Seq/CNN```, together with ```Test_result.txt``` indicating the area under the receiver operating characteristic curve (AUC) of the trained model in predicting TF-DNA binding specificity on the test data.
+If ```--feature_format Seq``` was used, the trained model can be found at ```/output/encode_101/gc_match/wgEncodeEH002288/Seq/CNN```, together with ```Test_result.txt``` indicating the area under the receiver operating characteristic curve (AUC) of the trained model in predicting TF-DNA binding specificity on the test data. <br/>
 If ```--feature_format DNAShape``` was used, the trained model is located at ```/output/encode_101/gc_match/wgEncodeEH002288/DNAShape/CNN```.
 
 ## Motif Prediction
@@ -52,7 +52,7 @@ Arguments | Description
 ```--feature_format Seq``` indicates that sequence motifs will be predicted. To identify shape motifs, use ```--feature_format DNAShape``` instead.
 
 ### Output
-For ```--feature_format Seq```, the predicted sequence motifs are in ```output/encode_101/gc_match/wgEncodeEH002288/Seq/CNN/0```.
+For ```--feature_format Seq```, the predicted sequence motifs are in ```output/encode_101/gc_match/wgEncodeEH002288/Seq/CNN/0```. <br/>
 For ```--feature_format DNAShape```, four kinds of shape motifs would be predicted as shown in the following table:
 
 Location | Type of predicted shape motif
