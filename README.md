@@ -11,8 +11,8 @@ DESSO is a deep learning-based framework that can be used to accurately identify
 * Python 2.7
 * Biopython 1.7.0
 * Scikit-learn
-* Download [GRCh37.p13.genome.fa](http://bmbl.sdstate.edu/downloadFiles/DESSO/GRCh37.p13.genome.fa) and [encode_101_background](http://bmbl.sdstate.edu/downloadFiles/DESSO/encode_101_background.zip), then put them into ```data/```
-* Only wgEncodeEH002288-related data were attached to ```data/encode_101```, ```data/encode_1001```, and ```data/TfbsUniform_hg19_ENCODE```, where wgEncodeEH002288 is UCSC Accession of the first dataset in the 690 ChIP-seq datasets. The whole data could be accessed at [encode_101](http://bmbl.sdstate.edu/downloadFiles/DESSO/encode_101.zip), [encode_1001](http://bmbl.sdstate.edu/downloadFiles/DESSO/encode_1001.zip), and [TfbsUniform_hg19_ENCODE](http://bmbl.sdstate.edu/downloadFiles/DESSO/TfbsUniform_hg19_ENCODE.zip).
+* Download [GRCh37.p13.genome.fa](http://bmbl.sdstate.edu/DESSO/tools/GRCh37.p13.genome.fa.zip) and [encode_101_background](http://bmbl.sdstate.edu/DESSO/tools/encode_101_background.zip), then unzip them and put them into ```data/```
+* ```data/encode_101```, ```data/encode_1001```, and ```data/TfbsUniform_hg19_ENCODE``` only contain wgEncodeEH002288-related data as an example. The source code and whole data can be accessed at [code+whole data](http://bmbl.sdstate.edu/DESSO/tools/DESSO-master-whole.zip).
 
 ## Model Training Based on CNN
 Train CNN models on specified datasets: 
