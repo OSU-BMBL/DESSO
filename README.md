@@ -57,17 +57,20 @@ For ```--feature_format DNAShape```, four kinds of shape motifs would be predict
 
 Location | Type of predicted shape motif
 -----------------------------------------------------------------|-----------------------------
-```output/encode_101/gc_match/wgEncodeEH002288/DNAShape/CNN/0``` | HelT motif
-```output/encode_101/gc_match/wgEncodeEH002288/DNAShape/CNN/1``` | MGW motif
-```output/encode_101/gc_match/wgEncodeEH002288/DNAShape/CNN/2``` | ProT motif
-```output/encode_101/gc_match/wgEncodeEH002288/DNAShape/CNN/3``` | Roll motif
+output/encode_101/gc_match/wgEncodeEH002288/DNAShape/CNN/0 | HelT motif
+output/encode_101/gc_match/wgEncodeEH002288/DNAShape/CNN/1 | MGW motif
+output/encode_101/gc_match/wgEncodeEH002288/DNAShape/CNN/2 | ProT motif
+output/encode_101/gc_match/wgEncodeEH002288/DNAShape/CNN/3 | Roll motif
 
-## Predict TF-DNA Binding Specicitity Using Gated-CNN and Long DNA Sequence
+## Predict TF-DNA Binding Specicitity Using Gated-CNN (GCNN) and Long DNA Sequence
 ```
 cd code/
 python train.py --start_index 0 --end_index 1 --peak_flank 500 --network GCNN --feature_format Seq
 ```
 ```--peak_flank 500``` indicates the peak length is (2 * 500 + 1) = 1001 base pairs <br/>
+
+### Output
+The trained model and its AUC on test data (```Test_result.txt```) is located at ```output/encode_1001/gc_match/wgEncodeEH002288/Seq/GCNN```.
 
 ## Citation
 If you use DESSO in your research, please cite the following paper.
