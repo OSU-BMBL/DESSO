@@ -28,7 +28,7 @@ Arguments | Description
 --network | Neural network used in model training (default is CNN)
 --feature_format | Feature format of the input (default is Seq)
 
-```--start_index 0 --end_index 1``` indicates the first dataset (i.e., wgEncodeEH002288). E.g., to train models for the second and third datasets, use ```--start_index 1 --end_index 3``` <br/>
+```--start_index 0 --end_index 1``` indicates the first dataset (i.e., wgEncodeEH002288). For example, to train models for the second and third datasets, use ```--start_index 1 --end_index 3``` <br/>
 ```--peak_flank 50``` indicates the peak length is (2 * 50 + 1) = 101 base pairs <br/>
 ```--network``` indicates that CNN is used here <br/>
 ```--feature_format``` can be Seq or DNAShape, where Seq indicates the input is DNA sequences, DNAShape indicates the input is the combination of four DNA shape features (i.e., HelT, MGW, ProT, and Roll).
