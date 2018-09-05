@@ -71,7 +71,7 @@ python train.py --start_index 0 --end_index 1 --peak_flank 500 --network GCNN --
 ```--peak_flank 500``` indicates that the peak length is (2 * 500 + 1) = 1001 base pairs <br/>
 
 ### Output
-The trained model and its AUC on test data (```Test_result.txt```) is located at ```output/encode_1001/gc_match/wgEncodeEH002288/Seq/GCNN```.
+The trained model and its AUC (```Test_result.txt```) on test data is located at ```output/encode_1001/gc_match/wgEncodeEH002288/Seq/GCNN```.
 
 ## Citation
 If you use DESSO in your research, please cite the following paper.
