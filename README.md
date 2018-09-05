@@ -12,7 +12,7 @@ DESSO is a deep learning-based framework that can be used to accurately identify
 * Biopython 1.7.0
 * Scikit-learn
 * Download [GRCh37.p13.genome.fa](http://bmbl.sdstate.edu/DESSO/tools/GRCh37.p13.genome.fa.zip) and [encode_101_background](http://bmbl.sdstate.edu/DESSO/tools/encode_101_background.zip), then unzip them and put them into ```data/```
-* ```data/encode_101```, ```data/encode_1001```, and ```data/TfbsUniform_hg19_ENCODE``` only contain wgEncodeEH002288-related data as an example. The source code and whole data can be accessed at [code+whole data](http://bmbl.sdstate.edu/DESSO/tools/DESSO-master-whole.zip).
+* ```data/encode_101```, ```data/encode_1001```, and ```data/TfbsUniform_hg19_ENCODE``` only contain wgEncodeEH002288-related data as an example, owing to the file size limit. To access the source code and whole datasets (totally about 5.9GB) without additional manipulation, just click on [code+whole data](http://bmbl.sdstate.edu/DESSO/tools/DESSO-master-whole.zip).
 
 ## Model Training Based on Convolutional Neural Network (CNN)
 Train CNN models on specified datasets: 
@@ -67,7 +67,7 @@ output/encode_101/gc_match/wgEncodeEH002288/DNAShape/CNN/3 | Roll motif
 cd code/
 python train.py --start_index 0 --end_index 1 --peak_flank 500 --network GCNN --feature_format Seq
 ```
-```--network GCNN``` indicates that GCNN is used for model training
+```--network GCNN``` indicates that GCNN is used for model training <br/>
 ```--peak_flank 500``` indicates that the peak length is (2 * 500 + 1) = 1001 base pairs <br/>
 
 ### Output
