@@ -75,6 +75,8 @@ The trained model and its AUC (```Test_result.txt```) on test data is located at
 
 ## Citation
 If you use DESSO in your research, please cite the following paper:</br>
-Systematic Prediction of Regulatory Motifs from Human ChIP-Sequencing Data Based on a Deep Learning Framework,
-Jinyu Yang, Adam D. Hoppe, Bingqiang Liu, Qin Ma,
+```
+**Systematic Prediction of Regulatory Motifs from Human ChIP-Sequencing Data Based on a Deep Learning Framework,**</br>
+Jinyu Yang, Adam D. Hoppe, Bingqiang Liu, Qin Ma,</br>
 bioRxiv 417378; doi: https://doi.org/10.1101/417378
+```
