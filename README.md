@@ -73,6 +73,27 @@ python train.py --start_index 0 --end_index 1 --peak_flank 500 --network GCNN --
 ### Output
 The trained model and its AUC (```Test_result.txt```) on test data is located at ```output/encode_1001/gc_match/wgEncodeEH002288/Seq/GCNN```.
 
+## Predict DNA motifs from your own ChIP-seq peaks
+
+We will use ```/data/Fox01/fox01_peaks.bed``` as the example, note it will overwrite the original ```encode_tfbs.txt``` file:
+
+* Download [hg38.fa.gz](http://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/), then unzip them and put them into ```data/```
+* Install bedtools, we will use this tool to extract DNA sequences from peak file
+
+```
+cd data/
+wget http://hgdownload.soe.ucsc.edu/goldenPath/hg38/bigZips/hg38.fa.gz 
+gunzip hg38.fa.gz
+
+cd ../code
+
+python processing_peaks.py --name ../data/Fox01/fox01_peaks.bed
+python train.py --start_index 0 --end_index 1 --peak_flank 500 --network GCNN --feature_format Seq
+python predict.py --start_index 0 --end_index 1 --peak_flank 500 --network CNN --feature_format Seq --start_cutoff 0.01 --end_cutoff 1 --step_cutoff 0.03
+
+```
+
+
 ## Citation
 If you use DESSO in your research, please cite the following paper:</br>
 Yang, Jinyu, Anjun Ma, Adam D. Hoppe, Cankun Wang, Yang Li, Chi Zhang, Yan Wang, Bingqiang Liu, and Qin Ma. "Prediction of regulatory motifs from human Chip-sequencing data using a deep learning framework." Nucleic Acids Research (2019).
