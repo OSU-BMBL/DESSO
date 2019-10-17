@@ -48,7 +48,7 @@ for peak_flank in PEAK_FLANK:
             table_name = table_name_list[train_data_list.index(train_data_name)]
             [peak_coor, peak_num] = util.get_peak_coor(PATH_ENCODE_TFBS_UNIF + "/" + table_name + ".narrowPeak.gz")
                             
-            path_curr_data = PATH_OUTPUT_ENCODE + '/' + train_data_name[-16:]
+            path_curr_data = PATH_OUTPUT_ENCODE + '/' + train_data_name[:]
             path_background_seq = PATH_DATA + "/encode_" + str(2 * peak_flank + 1) + "_background"
             
             ################# Load Data ##################          
