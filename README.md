@@ -88,7 +88,7 @@ gunzip hg38.fa.gz
 cd ../code
 
 python processing_peaks.py --name ../data/Fox01/fox01_peaks.bed
-python train.py --start_index 0 --end_index 1 --peak_flank 500 --network GCNN --feature_format Seq
+python train.py --start_index 0 --end_index 1 --peak_flank 500 --network CNN --feature_format Seq
 python predict.py --start_index 0 --end_index 1 --peak_flank 500 --network CNN --feature_format Seq --start_cutoff 0.01 --end_cutoff 1 --step_cutoff 0.03
 
 ```

@@ -104,8 +104,8 @@ def get_data(args):
     os.system(cmd)
     cmd='mv '+ outnames[2]+'.gz'+' ../data/encode_1001'
     os.system(cmd)
-    with open('../encode_tfbs.txt', 'a') as the_file:
-        the_file.write(name + '_encode\t' + name + '_encode')
+    with open('../encode_tfbs.txt', 'w') as the_file:
+        the_file.write(name + '_encode\t' + name + '_encode\n')
         
         
         
