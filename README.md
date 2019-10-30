@@ -96,7 +96,7 @@ python predict.py --start_index 0 --end_index 1 --peak_flank 500 --network CNN -
 
 ## Citation
 If you use DESSO in your research, please cite the following paper:</br>
-Yang, Jinyu, Anjun Ma, Adam D. Hoppe, Cankun Wang, Yang Li, Chi Zhang, Yan Wang, Bingqiang Liu, and Qin Ma,<br/>
+Jinyu Yang, Anjun Ma, Adam D. Hoppe, Cankun Wang, Yang Li, Chi Zhang, Yan Wang, Bingqiang Liu, and Qin Ma,<br/>
 "[Prediction of regulatory motifs from human Chip-sequencing data using a deep learning framework](https://academic.oup.com/nar/article/47/15/7809/5542889)",<br/>
 Nucleic Acids Research 47, no. 15 (2019): 7809-7824.
 
