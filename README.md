@@ -1,6 +1,8 @@
-# DESSO (DEep Sequence and Shape mOtif)
+# DESSO (DEep Sequence and Shape mOtif) 
 
 DESSO is a deep learning-based framework that can be used to accurately identify both sequence and shape regulatory motifs from the human genome. The performance of DESSO was evaluated on the [690 ChIP-seq datasets](https://genome.ucsc.edu/ENCODE/downloads.html).
+
+We also provide a [DataBase/WebServer](https://bmbl.bmi.osumc.edu/DESSO/index.php).
 
 <p align="center"> 
 <img src="https://github.com/viyjy/DESSO/blob/master/workflow.PNG">
