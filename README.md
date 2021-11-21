@@ -15,8 +15,8 @@ We also provide a [DataBase/WebServer](https://bmbl.bmi.osumc.edu/DESSO/index.ph
 - Python 2.7
 - Biopython 1.7.0
 - Scikit-learn
-- Download [GRCh37.p13.genome.fa](http://bmbl.sdstate.edu/DESSO/tools/GRCh37.p13.genome.fa.zip) and [encode_101_background](http://bmbl.sdstate.edu/DESSO/tools/encode_101_background.zip), then unzip them and put them into `data/`
-- `data/encode_101`, `data/encode_1001`, and `data/TfbsUniform_hg19_ENCODE` only contain wgEncodeEH002288-related data as an example, owing to the file size limit. To access the source code and whole datasets (totally about 5.9GB) without additional manipulation, just click on [code+whole data](http://bmbl.sdstate.edu/DESSO/tools/DESSO-master-whole.zip).
+- Download [GRCh37.p13.genome.fa](https://bmbl.bmi.osumc.edu/DESSO/tools/GRCh37.p13.genome.fa.zip) and [encode_101_background](https://bmbl.bmi.osumc.edu/DESSO/tools/encode_101_background.zip), then unzip them and put them into `data/`
+- `data/encode_101`, `data/encode_1001`, and `data/TfbsUniform_hg19_ENCODE` only contain wgEncodeEH002288-related data as an example, owing to the file size limit. To access the source code and whole datasets (totally about 5.9GB) without additional manipulation, just click on [code+whole data](https://bmbl.bmi.osumc.edu/DESSO/tools/DESSO-master-whole.zip).
 
 ## Model Training Based on Convolutional Neural Network (CNN)
 
