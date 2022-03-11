@@ -1,6 +1,6 @@
 # IMPORTANT NOTICE
 
-The DESSO server was recently attacked by hackers and it is temporarily closed. We are actively working on patching the server and will restore it shortly. If you need to access to the database results, we have the full archived version for download: https://bmbl.bmi.osumc.edu/downloadFiles/DESSO_ENCODE_seq_results.tar.gz (~25GB)
+The DESSO server was recently attacked by hackers and it is temporarily closed. We are actively working on patching the server and will restore it shortly. If you need to access to the database results, Please contact us and we can provide the full archived version for download. 
 
 # DESSO (DEep Sequence and Shape mOtif) 
 
