@@ -1,12 +1,7 @@
-# IMPORTANT NOTICE
-
-The DESSO server was recently attacked by hackers and it is temporarily closed. We are actively working on patching the server and will restore it shortly. If you need to access to the database results, Please contact us and we can provide the full archived version for download. 
-
 # DESSO (DEep Sequence and Shape mOtif) 
 
 DESSO is a deep learning-based framework that can be used to accurately identify both sequence and shape regulatory motifs from the human genome. The performance of DESSO was evaluated on the [690 ChIP-seq datasets](https://genome.ucsc.edu/ENCODE/downloads.html).
 
-We also provide a [DataBase/WebServer](https://cloud.osubmi.com/DESSO).
 
 <p align="center"> 
 <img src="https://github.com/viyjy/DESSO/blob/master/workflow.PNG">
@@ -19,8 +14,8 @@ We also provide a [DataBase/WebServer](https://cloud.osubmi.com/DESSO).
 - Python 2.7
 - Biopython 1.7.0
 - Scikit-learn
-- Download [GRCh37.p13.genome.fa](https://bmbl.bmi.osumc.edu/DESSO/tools/GRCh37.p13.genome.fa.zip) and [encode_101_background](https://bmbl.bmi.osumc.edu/DESSO/tools/encode_101_background.zip), then unzip them and put them into `data/`
-- `data/encode_101`, `data/encode_1001`, and `data/TfbsUniform_hg19_ENCODE` only contain wgEncodeEH002288-related data as an example, owing to the file size limit. To access the source code and whole datasets (totally about 5.9GB) without additional manipulation, just click on [code+whole data](https://bmbl.bmi.osumc.edu/DESSO/tools/DESSO-master-whole.zip).
+- Download [GRCh37.p13.genome.fa](https://bmblx.bmi.osumc.edu/downloadFiles/DESSO/GRCh37.p13.genome.fa.zip) and [encode_101_background](https://bmblx.bmi.osumc.edu/downloadFiles/DESSO/encode_101_background.zip), then unzip them and put them into `data/`
+- `data/encode_101`, `data/encode_1001`, and `data/TfbsUniform_hg19_ENCODE` only contain wgEncodeEH002288-related data as an example, owing to the file size limit. To access the source code and whole datasets (totally about 5.9GB) without additional manipulation, just click on [code+whole data](https://bmblx.bmi.osumc.edu/downloadFiles/DESSO/DESSO-master-whole.zip).
 
 ## Model Training Based on Convolutional Neural Network (CNN)
 
