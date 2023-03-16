@@ -71,7 +71,7 @@ def getchrom_index(args):
         match_res = pattern.match(t)
         t1=t.split('\t')
         if match_res:
-            t11=round((int(t1[1])+int(t1[2]))/2)-args.peak_flank+1
+            t11=round((int(t1[1])+int(t1[2]))/2)-args.peak_flank
             t12=round((int(t1[1])+int(t1[2]))/2)+args.peak_flank+1
             if t11 >0 and t12 > 0:
                     
