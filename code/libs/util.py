@@ -126,20 +126,18 @@ def load_data_encode(data_path, peak_coor, data_name, path_curr_data, train_test
                 chr_start = np.random.randint(chrom_seqSize[chr_index] - peak_length)      # Randomly select a start position in the selected chromosome
                 chr_end = chr_start + peak_length                                          # The end position of the selected segment
                 seq_segment = str(genome_seq[chr_index][chr_start : chr_end]).upper()
-
+                
                 # The sequences without overlapping and only consisting of 'ACGT' will be used as background sequence                    
                 if ((chr_index not in peak_coor.keys()) or (not (np.any((peak_coor[chr_index]['start'] <= chr_start) & (chr_start <= peak_coor[chr_index]['end'])) or np.any((peak_coor[chr_index]['start'] <= chr_end) & (chr_end <= peak_coor[chr_index]['end'])) or np.any((peak_coor[chr_index]['start'] >= chr_start) & (peak_coor[chr_index]['end'] <= chr_end))))) and (len(set(seq_segment) - set('ACGT')) == 0) and abs(SeqUtils.GC(seq_segment) - GC_content) < 1:
                     seqs.append(seq_segment)
-                            
+            
             seq_shuffle = np.array([[float(BASE_NUM[x]) for x in seq] for seq in seqs])
             seq_alph_shuffle = [seq for seq in seqs]
-
+            
             # Concatenate the original sequences and the shuffled sequences
             sequences = np.concatenate((sequences, seq_shuffle), axis = 0)
-
             # Concatenate the original targets and the all-zero targets
             targets = np.concatenate((targets, np.zeros((seq_shuffle.shape[0],), dtype = np.int)), axis = 0)
-
             # Concatenate the original sequences_alph and the shuffled sequences_alph
             sequences_alph = np.concatenate((sequences_alph, seq_alph_shuffle), axis = 0)
 

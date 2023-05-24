@@ -48,14 +48,14 @@ for peak_flank in PEAK_FLANK:
             table_name = table_name_list[train_data_list.index(train_data_name)]
             [peak_coor, peak_num] = util.get_peak_coor(PATH_ENCODE_TFBS_UNIF + "/" + table_name + ".narrowPeak.gz")
                             
-            path_curr_data = PATH_OUTPUT_ENCODE + '/' + train_data_name[:]
+            path_curr_data = PATH_OUTPUT_ENCODE + '/' + train_data_name
             path_background_seq = PATH_DATA + "/encode_" + str(2 * peak_flank + 1) + "_background"
             
-            ################# Load Data ##################          
+            ################# Load Data ##################     
             [all_sequences, all_targets, all_sequences_alph, all_HelT, all_MGW, all_ProT, all_Roll, all_dnaShape] = \
             util.load_data_encode(PATH_ENCODE + "/" + train_data_name + ".seq.gz", peak_coor, train_data_name, path_curr_data, "all", DNA_SHAPE, peak_flank, back_grou)
             
-            ####### Convert data to one-hot format #######
+            ####### Convert data to one-hot format #######      
             all_sequences_array = util.oneHot_data_encode(all_sequences)
             all_data_array = {}
             all_data_array['Seq'] = all_sequences_array
@@ -68,7 +68,7 @@ for peak_flank in PEAK_FLANK:
             motif_sequences_alph = all_sequences_alph[: (500 if all_sequences_array.shape[0] > 500 else all_sequences_array.shape[0]), ...]
             motif_data_array = {key : value[: (500 if value.shape[0] > 500 else value.shape[0]), ...] for key, value in all_data_array.items()}
             
-            # Load background datasets including sequence and DNA shape
+            # Load background datasets including sequence and DNA shape   
             back_sequences_alph = np.load(path_background_seq + "/seq_alph.npy")
             back_sequences_array = util.oneHot_data_encode(np.load(path_background_seq + "/seq.npy"))  
             background_data_array = {}
@@ -127,7 +127,7 @@ for peak_flank in PEAK_FLANK:
                     
                     # Identify motifs for each feature type
                     for key in data_keys:
-                        feature_dir = path_curr_net + "/" + key                    
+                        feature_dir = path_curr_net + "/" + key              
                         util.make_dir(feature_dir)                        
                         os.chdir(feature_dir)
                         
@@ -173,9 +173,10 @@ for peak_flank in PEAK_FLANK:
                         
                         # Align the sequence segments that maximally activate them 
                         for i in range(motif_signal[key].shape[3]):
-                            motif_dir = feature_dir + "/motif_" + str(i + 1)                    
-                            util.make_dir(motif_dir)                        
-                            os.chdir(motif_dir)
+                            motif_dir = feature_dir + "/motif_" + str(i + 1)    
+                            print("motif_dir: %s" % (motif_dir))                
+                            util.make_dir(motif_dir)                                   
+                            os.chdir(motif_dir)   
                             
                             # Record the sequence segments in plain format and FASTA format
                             f_motif = open('seq_motif_instances.txt', 'w')
@@ -207,29 +208,32 @@ for peak_flank in PEAK_FLANK:
                             
                             if feature_format == 'DNAShape':
                                 np.save("shape_motif_instances.npy", np.array(shape_motif))
-                                np.savetxt("shape_motif_instances.csv", np.array(shape_motif), delimiter = ',')                            
+                                np.savetxt("shape_motif_instances.csv", np.array(shape_motif), delimiter = ',')    
+                            print("Flag 5")                                   
                                 
                             # Ignore empty seq_motif_instances
                             if os.stat('seq_motif_instances.fa').st_size != 0:                                                        
                                 # Generate motif logo (normal and reverse complement) using weblogo 2.8.2
                                 os.system(PATH_SEQLOGO + " -F PNG -a -n -Y -k 1 -c -w 50 -h 10 -f seq_motif_instances.fa > seqLogo.png")
                                 os.system(PATH_SEQLOGO + " -F PNG -a -k 1 -c -w 50 -h 10 -f seq_motif_instances.fa > seqLogo_pure.png")
+                            print("PATH_SEQLOGO: %s" % (PATH_SEQLOGO))        
+                            print("Flag 6")           
 
                         # Remove invalid motifs
                         os.chdir(feature_dir)
                         with open("min_motif_pvalue.csv") as f:
                             min_motif_pvalue = list(csv.reader(f, delimiter = "\t"))
 
-                        for i in range(motif_signal[key].shape[3]):
-                            flag = float(min_motif_pvalue[i + 1][4]) > float(min_motif_pvalue[i + 1][5]) and float(min_motif_pvalue[i + 1][4]) > 5 and float(min_motif_pvalue[i + 1][3]) < 0.0001
-                            if not flag:
-                                os.system("rm -rf " + feature_dir + "/motif_" + str(i + 1))
-                            elif flag and feature_format == "Seq":
-                                information_content = util.cal_IC("motif_" + str(i + 1) + "/seq_motif_instances.fa")
-                                if not sum((np.array(information_content) > 1) * 1) >= 3:
-                                    os.system("rm -rf " + feature_dir + "/motif_" + str(i + 1))
-                            elif flag and feature_format == 'DNAShape':
-                                shape_motif_instances = np.load("motif_" + str(i + 1) + "/shape_motif_instances.npy")
-                                if not (np.any(np.mean(shape_motif_instances, axis=0) < SHAPE_THRESHOLD[KEY_SHAPE[key]][0]) or np.any(np.mean(shape_motif_instances, axis=0) > SHAPE_THRESHOLD[KEY_SHAPE[key]][1])):
-                                    os.system("rm -rf " + feature_dir + "/motif_" + str(i + 1))
+                        # for i in range(motif_signal[key].shape[3]):
+                            # flag = float(min_motif_pvalue[i + 1][4]) > float(min_motif_pvalue[i + 1][5]) and float(min_motif_pvalue[i + 1][4]) > 5 and float(min_motif_pvalue[i + 1][3]) < 0.0001
+                            # if not flag:
+                                #os.system("rm -rf " + feature_dir + "/motif_" + str(i + 1))
+                            # elif flag and feature_format == "Seq":
+                                # information_content = util.cal_IC("motif_" + str(i + 1) + "/seq_motif_instances.fa")
+                                # if not sum((np.array(information_content) > 1) * 1) >= 3:
+                                    #os.system("rm -rf " + feature_dir + "/motif_" + str(i + 1))
+                            # elif flag and feature_format == 'DNAShape':
+                                # shape_motif_instances = np.load("motif_" + str(i + 1) + "/shape_motif_instances.npy")
+                                # if not (np.any(np.mean(shape_motif_instances, axis=0) < SHAPE_THRESHOLD[KEY_SHAPE[key]][0]) or np.any(np.mean(shape_motif_instances, axis=0) > SHAPE_THRESHOLD[KEY_SHAPE[key]][1])):
+                                    #os.system("rm -rf " + feature_dir + "/motif_" + str(i + 1))
                                       
