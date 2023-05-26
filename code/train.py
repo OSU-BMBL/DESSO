@@ -19,7 +19,7 @@ import tensorflow as tf
 from libs.constants import *
 from libs.training import *
 import libs.util as util
-import datetime
+
 # Model parameters
 flags = tf.app.flags
 FLAGS = flags.FLAGS
@@ -28,7 +28,7 @@ flags.DEFINE_integer('end_index', 1, 'END index of the 690 ENCODE ChIP-seq datas
 flags.DEFINE_integer('peak_flank', 50, 'Number of flanking base pairs at each side of peak summit.')
 flags.DEFINE_string('network', 'CNN', 'Neural network used in model training.')
 flags.DEFINE_string('feature_format', 'Seq', 'Feature format of the input.')  
-#flags.DEFINE_string('time_path', './', 'training time')
+
 PEAK_FLANK = [int(FLAGS.peak_flank)]
 NETWORK = [FLAGS.network]
 FEATURE_FORMAT = [FLAGS.feature_format]
@@ -60,7 +60,7 @@ def main(argv = None):
                 [peak_coor, peak_num] = util.get_peak_coor(PATH_ENCODE_TFBS_UNIF + "/" + table_name + ".narrowPeak.gz")
 
                 # Record the results of the current training data
-                path_curr_data = PATH_OUTPUT_ENCODE + '/' + train_data_name[:]
+                path_curr_data = PATH_OUTPUT_ENCODE + '/' + train_data_name
                 util.make_dir(path_curr_data)     
 
                 ############ Load Training Data ##############
@@ -159,9 +159,4 @@ def main(argv = None):
                                    samp_perf[index_best_samp, 0], samp_perf[index_best_samp, 1], samp_perf[index_best_samp, 2], samp_perf[index_best_samp, 3], samp_perf[index_best_samp, 4], test_data_comp, test_targets)
                                 
 if __name__ == '__main__':
-    start_time = datetime.datetime.now()
     tf.app.run()
-    end_time = datetime.datetime.now()
-    total_time=(end_time - start_time).total_seconds()
-    np.savetxt('./time/train_time.txt',np.array([total_time]))
-    

@@ -18,6 +18,7 @@ args = parser.parse_args()
 
 def get_peaks(args):
     name=args.name
+    name=name.rsplit('/',1)[1]
     name=name.split('.')[0]
     file=open(args.name,'r')
     data=file.readlines() 
@@ -49,6 +50,7 @@ def get_peaks(args):
 def getchrom_index(args):
     data=[]
     name=args.name
+    name=name.rsplit('/',1)[1]
     name=name.split('.')[0]
     file=open(args.name,'r')
     data1=file.readlines() 
@@ -72,7 +74,7 @@ def getchrom_index(args):
         t1=t.split('\t')
         if match_res:
             t11=round((int(t1[1])+int(t1[2]))/2)-args.peak_flank+1
-            t12=round((int(t1[1])+int(t1[2]))/2)+args.peak_flank+1
+            t12=round((int(t1[1])+int(t1[2]))/2)+args.peak_flank+2
             if t11 >0 and t12 > 0:
                     
                 tt=str(t1[0])+'\t'+ str(int(t11)) + '\t' + str(int(t12)) +'\t'+str(t1[4])+'\n'
@@ -87,7 +89,7 @@ def getchrom_index(args):
     file0.close()
     file1.close()
     for k in range(2):
-        cmd='bedtools getfasta -fi ./hg38.fa -bed '+ test_val[k]+ ' -fo '+test_val_fa[k]
+        cmd='bedtools getfasta -fi ../data/hg38.fa -bed '+ test_val[k]+ ' -fo '+test_val_fa[k]
         os.system(cmd)
         os.remove(test_val[k])
 
@@ -110,6 +112,7 @@ def makeseq(input_name,out_name):
 
 def get_data(args):
     name=args.name
+    name=name.rsplit('/',1)[1]
     name=name.split('.')[0]
     innames=[name+'train1.fa',name+'test1.fa']
     outnames=[name+'_encode_AC.seq',name+'_encode_B.seq',name+'_encode.seq']
